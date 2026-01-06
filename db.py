@@ -757,7 +757,7 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     user["last_mobba_time"] = now
- base_card_data = random.choice(CARDS)
+    base_card_data = random.choice(CARDS)
   if not isinstance(base_card_data, dict) or "id" not in base_card_data:
     logging.error("Invalid card selected from CARDS: %r", base_card_data, exc_info=False)
     # Попробуем выбрать валидную карту из списка
@@ -793,6 +793,7 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     "image_path": path_to_image,
     card_stats
   }
+
 
     user["cards"].append(full_card_data)
     user["points"] += full_card_data["points"]
@@ -1420,6 +1421,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
