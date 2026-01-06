@@ -5,7 +5,6 @@ from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 from typing import Dict, Tuple
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, LabeledPrice, InputMediaPhoto
-import telebot
 import re
 import time
 import random
@@ -1568,4 +1567,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()
