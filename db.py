@@ -14,6 +14,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQu
 import uuid  # Добавляем для генерации уникальных ID для каждой полученной карты
 import os
 
+
 # Получаем путь к папке, где лежит текущий файл python
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -395,7 +396,7 @@ CARDS = [
 {"id": 184, "name": "ilong", "collection": "",
  "image_filename": "184.jpg"},
 {"id": 185, "name": "Natalia", "collection": "",
- "image_path": r"C:\Users\anana\PycharmProjects\PythonProject2\images.185.jpg"},
+ "image_filename": "185.jpg"},
 {"id": 186, "name": "Minotaur", "collection": "",
  "image_filename": "186.jpg"},
 {"id": 187, "name": "Freya", "collection": "",
@@ -1182,7 +1183,7 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "card_id": base_card_data["id"],
         "name": base_card_data["name"],
         "collection": base_card_data.get("collection", ""),
-        "image_path": base_card_data["image_path"],
+        "image_path": path_to_image,
         **card_stats
     }
 
@@ -1812,6 +1813,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
