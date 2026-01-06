@@ -757,19 +757,42 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     user["last_mobba_time"] = now
-    base_card_data = random.choice(CARDS)
-    chosen_rarity = FIXED_CARD_RARITIES.get(base_card_data["id"], "regular card")
-    card_stats = generate_card_stats(chosen_rarity, base_card_data)
-    img_name = base_card_data.get("image_filename", "1.jpg")
-    path_to_image = os.path.join(IMAGE_PATH, img_name)
-    full_card_data = {
-        "unique_id": str(uuid.uuid4()),
-        "card_id": base_card_data["id"],
-        "name": base_card_data["name"],
-        "collection": base_card_data.get("collection", ""),
-        "image_path": path_to_image,
-        **card_stats
-    }
+ base_card_data = random.choice(CARDS)
+  if not isinstance(base_card_data, dict) or "id" not in base_card_data:
+    logging.error("Invalid card selected from CARDS: %r", base_card_data, exc_info=False)
+    # Попробуем выбрать валидную карту из списка
+    valid_cards = [c for c in CARDS if isinstance(c, dict) and "id" in c]
+    if not valid_cards:
+      await update.message.reply_text("Ошибка: нет доступных карт. Обратитесь к администратору.")
+      return
+    base_card_data = random.choice(valid_cards)
+
+  # Берём id и аккуратно подбираем ключ для FIXED_CARD_RARITIES (int/str)
+  card_id = base_card_data.get("id")
+  try:
+    card_id_int = int(card_id) if card_id is not None else None
+  except Exception:
+    card_id_int = None
+
+  # Сначала пробуем по числовому ключу, затем по исходному значению, потом дефолт
+  chosen_rarity = (
+    FIXED_CARD_RARITIES.get(card_id_int)
+    or FIXED_CARD_RARITIES.get(card_id)
+    or "regular card"
+  )
+
+  card_stats = generate_card_stats(chosen_rarity, base_card_data)
+  img_name = base_card_data.get("image_filename", "1.jpg")
+  path_to_image = os.path.join(IMAGE_PATH, img_name)
+
+  full_card_data = {
+    "unique_id": str(uuid.uuid4()),
+    "card_id": card_id,
+    "name": base_card_data.get("name", "Unknown"),
+    "collection": base_card_data.get("collection", ""),
+    "image_path": path_to_image,
+    card_stats
+  }
 
     user["cards"].append(full_card_data)
     user["points"] += full_card_data["points"]
@@ -1397,6 +1420,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
