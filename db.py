@@ -148,7 +148,7 @@ CARDS = [
     72: {"path": os.path.join(PHOTO_BASE_PATH, "72.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nдурачиться, как дети\n\n🔖…72!"},
     73: {"path": os.path.join(PHOTO_BASE_PATH, "73.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nдарить себя!\n\n🔖…73!"},
     74: {"path": os.path.join(PHOTO_BASE_PATH, "74.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nгорячее сердце!\n\n🔖…74!"},
-}
+}]
 
 # 3. Фиксированная редкость для каждой карты по ее ID.
 FIXED_CARD_RARITIES = {
@@ -1398,6 +1398,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
