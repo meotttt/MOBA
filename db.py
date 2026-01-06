@@ -758,7 +758,7 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     user["last_mobba_time"] = now
     base_card_data = random.choice(CARDS)
-  if not isinstance(base_card_data, dict) or "id" not in base_card_data:
+    if not isinstance(base_card_data, dict) or "id" not in base_card_data:
     logging.error("Invalid card selected from CARDS: %r", base_card_data, exc_info=False)
     # Попробуем выбрать валидную карту из списка
     valid_cards = [c for c in CARDS if isinstance(c, dict) and "id" in c]
@@ -1421,6 +1421,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
