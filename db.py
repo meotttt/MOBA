@@ -12,6 +12,13 @@ from datetime import datetime, timedelta
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, LabeledPrice
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, PreCheckoutQueryHandler, ContextTypes, filters
 import uuid  # Добавляем для генерации уникальных ID для каждой полученной карты
+import os
+
+# Получаем путь к папке, где лежит текущий файл python
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Путь к папке с картинками (если папка images лежит в той же папке, что и скрипт)
+IMAGE_PATH = os.path.join(BASE_DIR, "images")
 
 # Ключ: (chat_id, message_id), Значение: user_id владельца
 NOTEBOOK_MENU_OWNERSHIP: Dict[Tuple[int, int], int] = {}
@@ -53,18 +60,18 @@ PREMIUM_RARITY_CHANCES = {
 # 2. Список всех карт.
 CARDS = [
     # Каждая карта - это словарь. Для удобства, ID 1-10 для мальчиков, 11-20 для девочек
-    {"id": 1, "name": "Angela","collection": "KISHIN DENSETSU",    "points": 3000, "image_path": BASE_URL + "1.jpg},
-    {"id": 2, "name": "Karrie","collection": "KISHIN DENSETSU",    "points": 3000, "image_path": BASE_URL + "2.jpg},
-    {"id": 3, "name": "Lancelot", "collection": "KISHIN DENSETSU", "points": 3000,"image_path": BASE_URL + "3.jpg},
-        {"id": 4, "name": "Miya","collection": "ATOMIC POP",           "points": 3000, "image_path": BASE_URL + "3.jpg},
-    {"id": 5, "name": "Eudora","collection": "ATOMIC POP",   "points": 3000,   "image_path": BASE_URL + "3.jpg},
-    {"id": 6, "name": "Yin","collection": "ATTACK ON TITAN",  "points": 3000,  "image_path": BASE_URL + "3.jpg},
-    {"id": 7, "name": "Martis","collection": "ATTACK ON TITAN","points": 3000, "image_path": BASE_URL + "3.jpg},
-    {"id": 8, "name": "Fanny","collection": "ATTACK ON TITAN", "points": 3000,"image_path": BASE_URL + "3.jpg},
-    {"id": 9, "name": "Balmond","collection": "",                  "image_path": BASE_URL + "3.jpg},
-    {"id": 10, "name": "Lylia", "collection": "NEOBEASTS", "points": 3000,     "image_path": BASE_URL + "3.jpg},
-    {"id": 11, "name": "Fasha","collection": "NEOBEASTS", "points": 3000,      "image_path": r"C:\Users\anana\PycharmProjects\PythonProject2\images\11.jpg"},
-    {"id": 12, "name": "Ling","collection": "NEOBEASTS",  "points": 3000,      "image_path": r"C:\Users\anana\PycharmProjects\PythonProject2\images\12.jpg"},
+    {"id": 1, "name": "Angela","collection": "KISHIN DENSETSU",    "points": 3000, "image_filename": "1.jpg"},
+    {"id": 2, "name": "Karrie","collection": "KISHIN DENSETSU",    "points": 3000, "image_filename": "1.jpg"},
+    {"id": 3, "name": "Lancelot", "collection": "KISHIN DENSETSU", "points": 3000,"image_filename": "1.jpg"},
+        {"id": 4, "name": "Miya","collection": "ATOMIC POP",           "points": 3000, "image_filename": "1.jpg"},
+    {"id": 5, "name": "Eudora","collection": "ATOMIC POP",   "points": 3000,   "image_filename": "1.jpg"},
+    {"id": 6, "name": "Yin","collection": "ATTACK ON TITAN",  "points": 3000,  "image_filename": "1.jpg"},
+    {"id": 7, "name": "Martis","collection": "ATTACK ON TITAN","points": 3000, "image_filename": "1.jpg"},
+    {"id": 8, "name": "Fanny","collection": "ATTACK ON TITAN", "points": 3000,"image_filename": "1.jpg"},
+    {"id": 9, "name": "Balmond","collection": "",                  "image_filename": "1.jpg"},
+    {"id": 10, "name": "Lylia", "collection": "NEOBEASTS", "points": 3000,     "image_filename": "1.jpg"},
+    {"id": 11, "name": "Fasha","collection": "NEOBEASTS", "points": 3000,      "image_filename": "1.jpg"},
+    {"id": 12, "name": "Ling","collection": "NEOBEASTS",  "points": 3000,      "image_filename": "1.jpg"},
     {"id": 13, "name": "Brody","collection": "NEOBEASTS", "points": 3000,      "image_path": r"C:\Users\anana\PycharmProjects\PythonProject2\images\13.jpg"},
     {"id": 14, "name": "Fredrinn","collection": "NEOBEASTS",  "points": 3000,   "image_path": r"C:\Users\anana\PycharmProjects\PythonProject2\images\14.jpg"},
     {"id": 15, "name": "Hanabi","collection": "SOUL VESSELS", "points": 3000,     "image_path": r"C:\Users\anana\PycharmProjects\PythonProject2\images\15.jpg"},
@@ -1570,5 +1577,6 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
