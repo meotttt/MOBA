@@ -1177,7 +1177,7 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     base_card_data = random.choice(CARDS)
     chosen_rarity = FIXED_CARD_RARITIES.get(base_card_data["id"], "regular card")
     card_stats = generate_card_stats(chosen_rarity, base_card_data)
-
+    path_to_image = os.path.join(IMAGE_PATH, img_name)
     full_card_data = {
         "unique_id": str(uuid.uuid4()),
         "card_id": base_card_data["id"],
@@ -1813,6 +1813,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
