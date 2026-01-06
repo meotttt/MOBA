@@ -59,7 +59,7 @@ PREMIUM_RARITY_CHANCES = {
     "collectible card": 25,
     "LIMITED": 10}
 # 2. Список всех карт.
-CARDS = [
+CARDS = {
     # Каждая карта - это словарь. Для удобства, ID 1-10 для мальчиков, 11-20 для девочек
     1: {"path": os.path.join(PHOTO_BASE_PATH, "1.jpg"), "caption": "❤️‍🔥 LOVE IS…\nрай!\n\n🔖…1!"},
     2: {"path": os.path.join(PHOTO_BASE_PATH, "2.jpg"), "caption": "❤️‍🔥 LOVE IS…\nкогда вместе!\n\n🔖…2! "},
@@ -147,7 +147,7 @@ CARDS = [
     71: {"path": os.path.join(PHOTO_BASE_PATH, "71.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nпикник на двоих!\n\n🔖…71!"},
     72: {"path": os.path.join(PHOTO_BASE_PATH, "72.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nдурачиться, как дети\n\n🔖…72!"},
     73: {"path": os.path.join(PHOTO_BASE_PATH, "73.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nдарить себя!\n\n🔖…73!"},
-    74: {"path": os.path.join(PHOTO_BASE_PATH, "74.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nгорячее сердце!\n\n🔖…74!"},]
+    74: {"path": os.path.join(PHOTO_BASE_PATH, "74.jpg"), "caption": "️‍❤️‍🔥 LOVE IS…\nгорячее сердце!\n\n🔖…74!"}}
 
 # 3. Фиксированная редкость для каждой карты по ее ID.
 FIXED_CARD_RARITIES = {
@@ -1397,6 +1397,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
