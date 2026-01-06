@@ -23,7 +23,7 @@ IMAGE_PATH = os.path.join(BASE_DIR, "images")
 
 # Ключ: (chat_id, message_id), Значение: user_id владельца
 NOTEBOOK_MENU_OWNERSHIP: Dict[Tuple[int, int], int] = {}
-
+PHOTO_BASE_PATH = "."
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # --- ДОБАВЛЕНО: Список ID пользователей с пожизненным премиумом ---
@@ -1397,6 +1397,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
