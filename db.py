@@ -741,66 +741,45 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if now - user["last_mobba_time"] < cooldown:
         wait = int(cooldown - (now - user["last_mobba_time"]))
-
-        # Различные сообщения в зависимости от премиум-статуса
         if is_premium:
             message_text = (
-                f"<b>🃏 Вы уже получали карту</b>"
+                f"<b>🃏 Вы уже получали карту</b>\n"
                 f"<blockquote>Попробуйте через {wait} сек</blockquote>\n"
                 f"<b>🚀 Premium сократил время на 25% !</b>\n"
             )
         else:
             message_text = (
-                f"<b>🃏 Вы уже получали карту</b>"
+                f"<b>🃏 Вы уже получали карту</b>\n"
                 f"<blockquote>Попробуйте через {wait} сек</blockquote>\n")
         await update.message.reply_text(message_text, parse_mode=ParseMode.HTML)
         return
 
     user["last_mobba_time"] = now
-    base_card_data = random.choice(CARDS)
-    if not isinstance(base_card_data, dict) or "id" not in base_card_data:
-    logging.error("Invalid card selected from CARDS: %r", base_card_data, exc_info=False)
-    # Попробуем выбрать валидную карту из списка
-    valid_cards = [c for c in CARDS if isinstance(c, dict) and "id" in c]
-    if not valid_cards:
-      await update.message.reply_text("Ошибка: нет доступных карт. Обратитесь к администратору.")
-      return
-    base_card_data = random.choice(valid_cards)
 
-  # Берём id и аккуратно подбираем ключ для FIXED_CARD_RARITIES (int/str)
-  card_id = base_card_data.get("id")
-  try:
-    card_id_int = int(card_id) if card_id is not None else None
-  except Exception:
-    card_id_int = None
+    # Исправленный выбор карты из словаря CARDS
+    card_id = random.choice(list(CARDS.keys()))
+    base_card_data = CARDS[card_id]
 
-  # Сначала пробуем по числовому ключу, затем по исходному значению, потом дефолт
-  chosen_rarity = (
-    FIXED_CARD_RARITIES.get(card_id_int)
-    or FIXED_CARD_RARITIES.get(card_id)
-    or "regular card"
-  )
+    # Определяем редкость по ID
+    chosen_rarity = FIXED_CARD_RARITIES.get(card_id, "regular card")
+    card_stats = generate_card_stats(chosen_rarity, base_card_data)
 
-  card_stats = generate_card_stats(chosen_rarity, base_card_data)
-  img_name = base_card_data.get("image_filename", "1.jpg")
-  path_to_image = os.path.join(IMAGE_PATH, img_name)
-
-  full_card_data = {
-    "unique_id": str(uuid.uuid4()),
-    "card_id": card_id,
-    "name": base_card_data.get("name", "Unknown"),
-    "collection": base_card_data.get("collection", ""),
-    "image_path": path_to_image,
-    card_stats
-  }
-
+    # Собираем данные карты
+    full_card_data = {
+        "unique_id": str(uuid.uuid4()),
+        "card_id": card_id,
+        "name": base_card_data.get("name", f"Карта #{card_id}"),
+        "collection": base_card_data.get("collection", "Без коллекции"),
+        "image_path": base_card_data["path"],
+        **card_stats  # Распаковываем редкость, поинты и т.д.
+    }
 
     user["cards"].append(full_card_data)
     user["points"] += full_card_data["points"]
     user["diamonds"] += full_card_data["diamonds"]
 
     caption = (
-        f"<b><i>🃏 {full_card_data['collection']} •  {full_card_data['name']}</i></b>\n"
+        f"<b><i>🃏 {full_card_data['collection']} • {full_card_data['name']}</i></b>\n"
         f"<blockquote><b><i>+ {full_card_data['points']} ОЧКОВ !</i></b></blockquote>\n\n"
         f"<b>✨ Редкость •</b> <i>{full_card_data['rarity']}</i>\n"
         f"<b>💰 БО •</b><i> {full_card_data['bo']}</i>\n"
@@ -812,7 +791,10 @@ async def mobba_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         with open(full_card_data["image_path"], 'rb') as photo:
             await update.message.reply_photo(photo=photo, caption=caption, parse_mode=ParseMode.HTML)
     except Exception as e:
-        await update.message.reply_text(f"Ошибка при загрузке фото: {e}")
+        logging.error(f"Ошибка отправки фото: {e}")
+        await update.message.reply_text(f"Карта получена, но фото не найдено. Ошибка: {e}")
+
+
 
 async def profile(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = get_user(update.effective_user.id)
@@ -1421,6 +1403,7 @@ def main():
 if __name__ == '__main__':
 
     main()
+
 
 
 
